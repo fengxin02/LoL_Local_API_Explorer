@@ -4,179 +4,217 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SpellTick</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0b0b12;
-    --card-bg: #151525;
-    --card-border: #252540;
-    --text: #cdd1d9;
-    --text-dim: #7b7f8a;
-    --flash: #f0c060;
-    --tp: #c88af0;
-    --ignite: #f06050;
-    --smite: #60b8f0;
-    --heal: #60f080;
-    --ghost: #80d0ff;
-    --default-spell: #8890a0;
-    --active-ring: #00e060;
-    --haste-tag: #50d0a0;
-    --btn-reset: #3a3a55;
+    --bg: #faf6ef;
+    --card-bg: #fffef9;
+    --card-border: #e0d5c0;
+    --text: #6b5c4a;
+    --text-dim: #a89880;
+    --flash: #e8a830;
+    --tp: #9b7ec4;
+    --ignite: #e07060;
+    --smite: #5ea8d4;
+    --heal: #6ab870;
+    --ghost: #78c4e0;
+    --default-spell: #9b8c78;
+    --active-ring: #5cb860;
+    --haste-tag: #58b8a0;
+    --btn-reset: #ede4d3;
+    --primary: #7bc67e;
+    --primary-hover: #68b36b;
+    --primary-border: #5aac5e;
+    --shadow-sm: 0 2px 8px rgba(120,100,70,0.08);
+    --shadow-md: 0 4px 16px rgba(120,100,70,0.12);
+    /* 4pt spacing scale */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 12px;
+    --space-lg: 16px;
+    --space-xl: 24px;
+    --space-2xl: 32px;
+    --space-3xl: 48px;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
 
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Segoe UI', 'PingFang SC', system-ui, sans-serif;
+    font-family: 'Nunito', 'PingFang SC', system-ui, sans-serif;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 16px;
+    align-items: flex-start;
+    padding: var(--space-2xl);
+    gap: var(--space-xl);
     user-select: none;
     -webkit-user-select: none;
   }
 
-  header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
   header h1 {
     font-size: 28px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    background: linear-gradient(135deg, #c0a0ff 0%, #60d0ff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+    color: #7bc67e;
+    letter-spacing: -0.5px;
   }
   header .status {
     font-size: 12px;
+    font-weight: 600;
     color: var(--text-dim);
-    margin-top: 4px;
+    margin-top: 2px;
   }
-  header .status.live { color: #40d060; }
-  header .status.offline { color: #e05050; }
+  header .status.live { color: #5cb860; }
+  header .status.offline { color: #d08070; }
 
   .toolbar {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: var(--space-md);
     flex-wrap: wrap;
-    justify-content: center;
   }
   .toolbar button {
-    padding: 8px 18px;
-    border: 1px solid var(--card-border);
-    border-radius: 6px;
+    padding: 10px 24px;
+    border: 2px solid var(--card-border);
+    border-radius: 24px;
     background: var(--btn-reset);
     color: var(--text);
     cursor: pointer;
-    font-size: 13px;
-    transition: background .15s;
+    font-family: 'Nunito', 'PingFang SC', system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    transition: transform .12s, box-shadow .15s, background .15s;
+    box-shadow: var(--shadow-sm);
   }
-  .toolbar button:hover { background: #4a4a65; }
-  .toolbar button.primary { background: #5b40c0; border-color: #7b60e0; }
-  .toolbar button.primary:hover { background: #6b50d0; }
+  .toolbar button:hover {
+    background: #f0e8d5;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  .toolbar button:active { transform: translateY(0) scale(0.97); }
+
+  .toolbar button.primary {
+    background: var(--primary);
+    border-color: var(--primary-border);
+    color: #fff;
+  }
+  .toolbar button.primary:hover { background: var(--primary-hover); }
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 14px;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: var(--space-lg);
     width: 100%;
-    max-width: 1100px;
+    max-width: 1200px;
   }
 
   .card {
     background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 10px;
-    padding: 14px 12px 16px;
+    border: 2px solid var(--card-border);
+    border-radius: 20px;
+    padding: var(--space-lg) var(--space-lg) var(--space-xl);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    transition: border-color .2s;
+    gap: var(--space-sm);
+    box-shadow: var(--shadow-sm);
+    transition: transform .15s, box-shadow .2s;
   }
-  .card:hover { border-color: #404060; }
+  .card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
 
   .card .champ {
-    font-size: 15px;
-    font-weight: 600;
-    color: #e8e8f0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #6b5c4a;
     text-align: center;
   }
   .card .haste-tag {
-    font-size: 10px;
+    font-size: 11px;
+    font-weight: 700;
     color: var(--haste-tag);
-    background: #1a3030;
-    padding: 2px 8px;
-    border-radius: 10px;
+    background: #e0f5ee;
+    padding: 3px 12px;
+    border-radius: 20px;
     display: none;
   }
   .card .haste-tag.show { display: inline-block; }
 
   .spell-row {
     display: flex;
-    gap: 10px;
+    gap: var(--space-md);
     width: 100%;
     justify-content: center;
   }
 
   .spell-btn {
     position: relative;
-    width: 72px;
-    height: 72px;
+    width: 88px;
+    height: 88px;
     border-radius: 50%;
     border: 3px solid var(--card-border);
-    background: var(--card-bg);
+    background: #faf7f0;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    transition: transform .1s, border-color .15s, box-shadow .15s;
+    transition: transform .12s, border-color .15s, box-shadow .15s;
     outline: none;
     -webkit-tap-highlight-color: transparent;
     overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .spell-btn:hover {
+    box-shadow: var(--shadow-md);
+    transform: scale(1.06);
   }
   .spell-btn:active { transform: scale(0.93); }
 
   .spell-btn .label {
-    font-size: 10px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 700;
     color: var(--default-spell);
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
     text-align: center;
     line-height: 1.15;
     z-index: 1;
   }
   .spell-btn .cd-num {
-    font-size: 11px;
+    font-size: 12px;
+    font-weight: 600;
     color: var(--text-dim);
     z-index: 1;
   }
 
   /* spell type colors */
   .spell-btn[data-spell="Flash"]     .label { color: var(--flash); }
-  .spell-btn[data-spell="Teleport"]   .label { color: var(--tp); }
-  .spell-btn[data-spell="Ignite"]     .label { color: var(--ignite); }
-  .spell-btn[data-spell="Smite"]      .label { color: var(--smite); }
-  .spell-btn[data-spell="Heal"]       .label { color: var(--heal); }
-  .spell-btn[data-spell="Ghost"]      .label { color: var(--ghost); }
-  .spell-btn[data-spell="Exhaust"]    .label { color: #e0b060; }
-  .spell-btn[data-spell="Barrier"]    .label { color: #f0c870; }
-  .spell-btn[data-spell="Cleanse"]    .label { color: #80e0d0; }
+  .spell-btn[data-spell="Teleport"]  .label { color: var(--tp); }
+  .spell-btn[data-spell="Ignite"]    .label { color: var(--ignite); }
+  .spell-btn[data-spell="Smite"]     .label { color: var(--smite); }
+  .spell-btn[data-spell="Heal"]      .label { color: var(--heal); }
+  .spell-btn[data-spell="Ghost"]     .label { color: var(--ghost); }
+  .spell-btn[data-spell="Exhaust"]   .label { color: #c89848; }
+  .spell-btn[data-spell="Barrier"]   .label { color: #d4a858; }
+  .spell-btn[data-spell="Cleanse"]   .label { color: #68c4b8; }
 
-  /* cooldown active state */
+  /* cooldown active */
   .spell-btn.on-cd {
-    border-color: #404050;
+    border-color: #e0d5c0;
+    background: #f5f0e5;
     cursor: default;
+    box-shadow: none;
   }
-  .spell-btn.on-cd .label { color: #555560 !important; }
-  .spell-btn.on-cd .cd-num { color: #909090; }
+  .spell-btn.on-cd:hover { transform: none; box-shadow: none; }
+  .spell-btn.on-cd .label { color: #c8b898 !important; }
+  .spell-btn.on-cd .cd-num { color: #c8b898; }
   .spell-btn.on-cd:active { transform: none; }
 
-  /* countdown overlay ring */
+  /* ring */
   .spell-btn svg {
     position: absolute;
     top: 0; left: 0;
@@ -186,12 +224,12 @@
   .spell-btn svg circle.bg {
     fill: none;
     stroke: transparent;
-    stroke-width: 3;
+    stroke-width: 4;
   }
   .spell-btn svg circle.fg {
     fill: none;
     stroke: var(--active-ring);
-    stroke-width: 3;
+    stroke-width: 4;
     stroke-linecap: round;
     transform: rotate(-90deg);
     transform-origin: center;
@@ -202,13 +240,12 @@
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 18px;
-    font-weight: 700;
-    color: #e0e0e0;
+    font-size: 22px;
+    font-weight: 800;
+    color: #6b5c4a;
     z-index: 2;
     pointer-events: none;
     display: none;
-    text-shadow: 0 1px 6px rgba(0,0,0,.7);
   }
   .spell-btn.on-cd .timer-text { display: block; }
   .spell-btn.on-cd .label { visibility: hidden; }
@@ -217,10 +254,10 @@
   .empty-state {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 60px 20px;
+    padding: var(--space-3xl) var(--space-lg);
     color: var(--text-dim);
   }
-  .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+  .empty-state .icon { font-size: 56px; margin-bottom: var(--space-md); }
 </style>
 </head>
 <body>
@@ -308,11 +345,11 @@ function updateButtonUI(key, remaining) {
         circle.setAttribute('stroke-dashoffset', C * (1 - pct));
 
         if (remaining <= 15) {
-            circle.setAttribute('stroke', '#f05050');
+            circle.setAttribute('stroke', '#e07060');
         } else if (remaining <= 60) {
-            circle.setAttribute('stroke', '#f0c040');
+            circle.setAttribute('stroke', '#e8a830');
         } else {
-            circle.setAttribute('stroke', '#00e060');
+            circle.setAttribute('stroke', '#5cb860');
         }
     }
 
@@ -447,24 +484,24 @@ function buildSpellButton(champion, spell, key, remaining) {
     btn.title = `${spell.name} — ${spell.cd}s CD`;
     btn.onclick = () => onSpellClick(btn);
 
-    const r = 32;
+    const r = 39;
     const C = 2 * Math.PI * r;
 
     const svgNS = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(svgNS, 'svg');
-    svg.setAttribute('viewBox', '0 0 72 72');
+    svg.setAttribute('viewBox', '0 0 88 88');
 
     const bgCircle = document.createElementNS(svgNS, 'circle');
     bgCircle.setAttribute('class', 'bg');
-    bgCircle.setAttribute('cx', '36');
-    bgCircle.setAttribute('cy', '36');
+    bgCircle.setAttribute('cx', '44');
+    bgCircle.setAttribute('cy', '44');
     bgCircle.setAttribute('r', String(r));
     svg.appendChild(bgCircle);
 
     const fgCircle = document.createElementNS(svgNS, 'circle');
     fgCircle.setAttribute('class', 'fg');
-    fgCircle.setAttribute('cx', '36');
-    fgCircle.setAttribute('cy', '36');
+    fgCircle.setAttribute('cx', '44');
+    fgCircle.setAttribute('cy', '44');
     fgCircle.setAttribute('r', String(r));
     fgCircle.setAttribute('stroke-dasharray', String(C));
     fgCircle.setAttribute('stroke-dashoffset', '0');
