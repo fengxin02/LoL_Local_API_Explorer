@@ -30,7 +30,7 @@ mock_game_data = {
                 "summonerSpellTwo": {"displayName": "Teleport"}
             },
             "runes": {"perkIds": [8005, 9111, 9104, 8299, 8444, 5007]},
-            "items": []
+            "items": []  
         },
         {
             "summonerName": "EnemyLeeSin",
@@ -78,4 +78,4 @@ def fake_lol_client():
 if __name__ == "__main__":
     print("====== Mock League client started! ======")
     print("Serving mock data on http://127.0.0.1:2999")
-    app.run(port=2999)
+    app.run(port=2999, debug=True)
