@@ -22,14 +22,14 @@ LIVE_API_URLS = [
 # Base cooldowns in seconds (patch 14.x+ values)
 BASE_COOLDOWNS = {
     "Flash": 300,
-    "Teleport": 360,
+    "Teleport": 300,
     "Ignite": 180,
     "Smite": 90,
     "Heal": 240,
     "Barrier": 180,
-    "Exhaust": 210,
-    "Cleanse": 210,
-    "Ghost": 210,
+    "Exhaust": 240,
+    "Cleanse": 240,
+    "Ghost": 240,
     "Mark": 80,
     "Clarity": 240,
 }
@@ -62,7 +62,7 @@ def calc_haste(player):
     # Check items for Ionian Boots of Lucidity (+12 summoner spell haste)
     for item in player.get("items", []):
         if item.get("itemID") == IONIAN_BOOTS_ID:
-            haste += 12
+            haste += 10
             break
 
     return haste
