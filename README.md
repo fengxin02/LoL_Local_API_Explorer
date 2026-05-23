@@ -22,7 +22,7 @@ real-time data processing, and cross-device web serving with Python.
 1. The League client exposes a local REST API on `127.0.0.1:2999` during a game.
 2. A Python Flask server queries this endpoint, processes the JSON response, and
    extracts structured player data.
-3. The processed data is served at `http://127.0.0.1:5000` as a web page.
+3. The processed data is served at `http://your_ip_address:5000` as a web page.
 
 
 ## Quick start
