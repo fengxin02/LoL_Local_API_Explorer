@@ -175,6 +175,14 @@
   }
   .spell-btn:active { transform: scale(0.93); }
 
+  .spell-btn .spell-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    z-index: 1;
+    image-rendering: crisp-edges;
+  }
+
   .spell-btn .label {
     font-size: 11px;
     font-weight: 700;
@@ -210,6 +218,7 @@
     box-shadow: none;
   }
   .spell-btn.on-cd:hover { transform: none; box-shadow: none; }
+  .spell-btn.on-cd .spell-icon { opacity: 0.35; }
   .spell-btn.on-cd .label { color: #c8b898 !important; }
   .spell-btn.on-cd .cd-num { color: #c8b898; }
   .spell-btn.on-cd:active { transform: none; }
@@ -356,6 +365,8 @@
 
 <script>
 // --- Timer engine ---
+const DDRAGON_VERSION = "{{ ddragon_version }}";
+const SPELL_IMAGES = {{ spell_images | tojson }};
 const timers = new Map();
 
 function timerKey(champion, spellName) {
@@ -623,6 +634,15 @@ function buildSpellButton(champion, spell, key, remaining) {
     svg.appendChild(fgCircle);
 
     btn.appendChild(svg);
+
+    const imgName = SPELL_IMAGES[spell.name];
+    if (imgName) {
+        const img = document.createElement('img');
+        img.className = 'spell-icon';
+        img.src = `https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VERSION}/img/spell/${imgName}`;
+        img.alt = spell.name;
+        btn.appendChild(img);
+    }
 
     const label = document.createElement('span');
     label.className = 'label';

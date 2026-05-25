@@ -38,6 +38,10 @@ BASE_COOLDOWNS = {
 COSMIC_INSIGHT_IDS = 8347
 IONIAN_BOOTS_ID = {3158, 223158}
 CRIMSON_LUCIDICY = 3171
+
+SPELL_IMAGES = {}
+patch = "16.10.1"  # fallback, overwritten in __main__
+
 def get_live_patch_number():
     try:
         gversion = requests.get("https://ddragon.leagueoflegends.com/api/versions.json").json()
@@ -49,6 +53,7 @@ def get_live_patch_number():
 
 
 def get_patch_summener_spell_names(patch):
+    global SPELL_IMAGES
     try:
         response = requests.get(
             f"https://ddragon.leagueoflegends.com/cdn/{patch}/data/en_US/summoner.json",
@@ -65,6 +70,9 @@ def get_patch_summener_spell_names(patch):
                 spell_name = spell.get("name")
                 cooldown = spell.get("cooldown", [0])[0]
                 summoner_spell[spell_name] = cooldown
+                image = spell.get("image", {}).get("full", "")
+                if image:
+                    SPELL_IMAGES[spell_name] = image
 
             return summoner_spell
 
@@ -159,7 +167,7 @@ def api_game_data():
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", ddragon_version=patch, spell_images=SPELL_IMAGES)
 
 
 if __name__ == "__main__":
