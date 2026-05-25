@@ -19,6 +19,7 @@ LIVE_API_URLS = [
     "https://127.0.0.1:2999/liveclientdata/allgamedata",
 ]
 
+
 # Base cooldowns in seconds (patch 14.x+ values)
 BASE_COOLDOWNS = {
     "Flash": 300,
@@ -36,6 +37,15 @@ BASE_COOLDOWNS = {
 
 COSMIC_INSIGHT_IDS = {8347, 8365}
 IONIAN_BOOTS_ID = 3158
+
+def get_live_patch_number():
+    try:
+        gversion = requests.get("https://ddragon.leagueoflegends.com/api/versions.json").json()
+        if gversion:
+            return gversion[0]  # Latest patch version
+    except Exception:
+        print("Failed to fetch patch version, defaulting to 14.10")
+    return "unknown"
 
 
 def get_live_data():
@@ -119,6 +129,7 @@ def index():
 
 
 if __name__ == "__main__":
+    print(get_live_patch_number())
     print("SpellTick — Summoner Spell Timer")
     print("Open http://127.0.0.1:5000 in your browser")
     print("Mobile: connect to http://<your-ip>:5000 on same network")
