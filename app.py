@@ -35,9 +35,9 @@ BASE_COOLDOWNS = {
     "Clarity": 240,
 }
 
-COSMIC_INSIGHT_IDS = {8347, 8365}
-IONIAN_BOOTS_ID = 3158
-
+COSMIC_INSIGHT_IDS = 8347
+IONIAN_BOOTS_ID = {3158, 223158}
+CRIMSON_LUCIDICY = 3171
 def get_live_patch_number():
     try:
         gversion = requests.get("https://ddragon.leagueoflegends.com/api/versions.json").json()
@@ -96,12 +96,16 @@ def calc_haste(player):
     # Check rune perk IDs for Cosmic Insight (+18 summoner spell haste)
     runes = player.get("runes", {})
     perk_ids = runes.get("perkIds", [])
-    if any(pid in COSMIC_INSIGHT_IDS for pid in perk_ids):
+    if any(pid == COSMIC_INSIGHT_IDS for pid in perk_ids):
         haste += 18
 
     # Check items for Ionian Boots of Lucidity (+12 summoner spell haste)
     for item in player.get("items", []):
-        if item.get("itemID") == IONIAN_BOOTS_ID:
+        if item.get("itemID") == CRIMSON_LUCIDICY:
+            haste += 20
+            break
+        
+        if item.get("itemID") in IONIAN_BOOTS_ID:
             haste += 10
             break
 
@@ -161,8 +165,8 @@ def index():
 if __name__ == "__main__":
     patch = get_live_patch_number()
     print(f"Current patch: {patch}")
-
-    print(get_patch_summener_spell_names(patch))
+    BASE_COOLDOWNS = get_patch_summener_spell_names(patch)
+    #print(BASE_COOLDOWNS)
     print("SpellTick — Summoner Spell Timer")
     print("Open http://127.0.0.1:5000 in your browser")
     print("Mobile: connect to http://<your-ip>:5000 on same network")
